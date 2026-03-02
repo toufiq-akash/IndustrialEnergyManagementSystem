@@ -1,0 +1,43 @@
+﻿@model IndustrialEnergyManagementSystem.Models.Machine
+
+@{
+    ViewBag.Title = "Machine Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Machine Details</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>Machine Information</h4>
+    </div>
+
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+
+            <dt>Machine Name</dt>
+            <dd>@Html.DisplayFor(model => model.MachineName)</dd>
+
+            <dt>Power Rating (kW)</dt>
+            <dd>@Html.DisplayFor(model => model.PowerRatingKW)</dd>
+
+            <dt>Department</dt>
+            <dd>
+                @(Model.Department != null
+                    ? Model.Department.DepartmentName
+                    : "No Department Assigned")
+            </dd>
+
+        </dl>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit",
+        new { id = Model.MachineId },
+        new { @class = "btn btn-warning" }) |
+
+    @Html.ActionLink("Back to List", "Index",
+        null,
+        new { @class = "btn btn-default" })
+</p>

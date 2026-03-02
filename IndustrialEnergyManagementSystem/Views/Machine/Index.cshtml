@@ -1,0 +1,56 @@
+﻿@model IEnumerable<IndustrialEnergyManagementSystem.Models.Machine>
+
+@{
+    ViewBag.Title = "Machines List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Machines List</h2>
+
+<p>
+    @Html.ActionLink("Create New Machine", "Create", null,
+        new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Machine Name</th>
+            <th>Power Rating (kW)</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MachineName</td>
+                    <td>@item.PowerRatingKW</td>
+                    <td>@(item.Department?.DepartmentName ?? "No Department")</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MachineId },
+                            new { @class = "btn btn-sm btn-warning" })
+
+                        @Html.ActionLink("Details", "Details", new { id = item.MachineId },
+                            new { @class = "btn btn-sm btn-info" })
+
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MachineId },
+                            new { @class = "btn btn-sm btn-danger" })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center text-danger">
+                    No machines found.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

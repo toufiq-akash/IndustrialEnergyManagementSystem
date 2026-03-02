@@ -1,0 +1,58 @@
+﻿@model IndustrialEnergyManagementSystem.Models.EnergyRecord
+
+@{
+    ViewBag.Title = "Add Energy Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Energy Log</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- Machine Dropdown -->
+        <div class="form-group">
+            @Html.Label("Machine", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MachineId", (SelectList)ViewBag.MachineId, "Select Machine", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MachineId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Run Hours -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.RunHours, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RunHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RunHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Record Date -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RecordDate, new { htmlAttributes = new { type = "datetime-local", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecordDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add Log" class="btn btn-success" />
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

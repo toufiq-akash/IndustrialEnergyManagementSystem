@@ -1,0 +1,62 @@
+﻿@model IEnumerable<IndustrialEnergyManagementSystem.Models.EnergyLogViewModel>
+
+@{
+    ViewBag.Title = "Energy Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Energy Logs</h2>
+
+<p>
+    @Html.ActionLink("Add New Log", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<!-- Filter Form -->
+@using (Html.BeginForm("Index", "Energy", FormMethod.Get))
+{
+    <div class="form-inline mb-3">
+        <input type="text" name="searchMachine" placeholder="Machine Name" value="@Request["searchMachine"]" class="form-control mr-2" />
+        <input type="date" name="startDate" value="@Request["startDate"]" class="form-control mr-2" />
+        <input type="date" name="endDate" value="@Request["endDate"]" class="form-control mr-2" />
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="@Url.Action("Index")" class="btn btn-default ml-2">Reset</a>
+    </div>
+}
+
+<!-- Energy Logs Table -->
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Machine</th>
+            <th>Run Hours</th>
+            <th>Energy (kWh)</th>
+            <th>Record Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var log in Model)
+            {
+                <tr>
+                    <td>@log.MachineName</td> <!-- fixed: proxy problem gone -->
+                    <td>@log.RunHours</td>
+                    <td>@String.Format("{0:0.##}", log.EnergyConsumed)</td>
+                    <td>@log.RecordDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = log.RecordId }, new { @class = "btn btn-sm btn-danger" })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-danger">
+                    No energy logs found.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

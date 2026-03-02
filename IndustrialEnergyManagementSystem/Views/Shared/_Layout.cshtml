@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - IEMS</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @RenderSection("Scripts", required: false)
+
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #f2f3f7;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Modern Dark Navbar */
+        .navbar {
+            background-color: #1f2937;
+            border: none;
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .navbar-nav {
+            float: right;
+        }
+
+            .navbar-nav li {
+                display: inline-block;
+                margin-left: 25px;
+            }
+
+                .navbar-nav li a {
+                    color: #ffffff !important;
+                    font-weight: 500;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                }
+
+                    .navbar-nav li a:hover {
+                        color: #facc15 !important;
+                    }
+
+        /* Main Card */
+        .main-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        footer {
+            padding: 15px 0;
+            text-align: center;
+            background-color: #1f2937;
+            color: #ffffff;
+            margin-top: 50px;
+        }
+
+        /* Buttons in table */
+        .btn-edit {
+            background-color: #facc15;
+            color: #1f2937;
+        }
+
+        .btn-details {
+            background-color: #0bc5ea;
+            color: #fff;
+        }
+
+        .btn-delete {
+            background-color: #f56565;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MODERN NAVBAR -->
+    <nav class="navbar navbar-fixed-top">
+        <div class="container">
+            @Html.ActionLink("IEMS", "Index", "Machine", null, new { @class = "navbar-brand" })
+            <ul class="navbar-nav">
+                <li>@Html.ActionLink("Machines", "Index", "Machine")</li>
+                <li>@Html.ActionLink("Energy Logs", "Index", "Energy")</li>
+                <li>@Html.ActionLink("Reports", "Index", "Report")</li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <div class="main-card">
+            @RenderBody()
+        </div>
+
+        <footer>
+            &copy; @DateTime.Now.Year - Industrial Energy Management System
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
