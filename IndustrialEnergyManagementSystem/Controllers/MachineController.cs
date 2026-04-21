@@ -10,20 +10,32 @@ namespace IndustrialEnergyManagementSystem.Controllers
     {
         private IEMSContext db = new IEMSContext();
 
+        // 🔐 AUTH CHECK (LOGIN REQUIRED)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["UserId"] == null)
+            {
+                filterContext.Result = RedirectToAction("Login", "Account");
+                return;
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
+
         // =========================
-        // GET: Machine
+        // GET: Machine (NO CACHE FIXED)
         // =========================
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ActionResult Index()
         {
             var machines = db.Machines
                              .Include(m => m.Department)
                              .ToList();
+
             return View(machines);
         }
 
-        // =========================
-        // GET: Machine/Details/5
-        // =========================
+        // GET: Machine/Details
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,9 +51,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(machine);
         }
 
-        // =========================
         // GET: Machine/Create
-        // =========================
         public ActionResult Create()
         {
             ViewBag.DepartmentId =
@@ -50,9 +60,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View();
         }
 
-        // =========================
         // POST: Machine/Create
-        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Machine machine)
@@ -70,9 +78,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(machine);
         }
 
-        // =========================
-        // GET: Machine/Edit/5
-        // =========================
+        // GET: Machine/Edit
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -89,9 +95,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(machine);
         }
 
-        // =========================
-        // POST: Machine/Edit/5
-        // =========================
+        // POST: Machine/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Machine machine)
@@ -109,9 +113,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(machine);
         }
 
-        // =========================
-        // GET: Machine/Delete/5
-        // =========================
+        // GET: Machine/Delete
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -127,9 +129,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(machine);
         }
 
-        // =========================
-        // POST: Machine/Delete/5
-        // =========================
+        // POST: Machine/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -145,15 +145,14 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        // =========================
-        // Dispose (Best Practice)
-        // =========================
+        // DISPOSE
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

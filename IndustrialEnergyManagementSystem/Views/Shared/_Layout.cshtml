@@ -90,11 +90,21 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container">
             @Html.ActionLink("IEMS", "Index", "Machine", null, new { @class = "navbar-brand" })
-            <ul class="navbar-nav">
-                <li>@Html.ActionLink("Machines", "Index", "Machine")</li>
-                <li>@Html.ActionLink("Energy Logs", "Index", "Energy")</li>
-                <li>@Html.ActionLink("Reports", "Index", "Report")</li>
-            </ul>
+            @if (Session["UserId"] != null)
+            {
+                <ul class="navbar-nav">
+                    <li>@Html.ActionLink("Machines", "Index", "Machine")</li>
+                    <li>@Html.ActionLink("Energy Logs", "Index", "Energy")</li>
+                    <li>@Html.ActionLink("Reports", "Index", "Report")</li>
+                    <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                </ul>
+            }
+            else
+            {
+                <ul class="navbar-nav">
+                    <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                </ul>
+            }
         </div>
     </nav>
 

@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnergyController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -133,6 +134,10 @@
     <Compile Include="Migrations\202602280934404_InitialCreate.Designer.cs">
       <DependentUpon>202602280934404_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604211829269_AddUserTable.cs" />
+    <Compile Include="Migrations\202604211829269_AddUserTable.Designer.cs">
+      <DependentUpon>202604211829269_AddUserTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Department.cs" />
@@ -140,6 +145,7 @@
     <Compile Include="Models\EnergyRecord.cs" />
     <Compile Include="Models\IEMSContext.cs" />
     <Compile Include="Models\Machine.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +184,7 @@
     <Content Include="Views\Energy\Create.cshtml" />
     <Content Include="Views\Energy\Delete.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -191,6 +198,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202602280934404_InitialCreate.resx">
       <DependentUpon>202602280934404_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604211829269_AddUserTable.resx">
+      <DependentUpon>202604211829269_AddUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

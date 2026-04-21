@@ -14,5 +14,6 @@ namespace IndustrialEnergyManagementSystem.Models
 
             public DbSet<Machine> Machines { get; set; }
             public DbSet<Department> Departments { get; set; }
-        }
+            public DbSet<User> Users { get; set; }
+    }
 }

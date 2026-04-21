@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IndustrialEnergyManagementSystem.Models
 {
-    [Table("EnergyRecord")]   // ✅ ADD THIS LINE
+    [Table("EnergyRecord")]   
     public class EnergyRecord
     {
         [Key]

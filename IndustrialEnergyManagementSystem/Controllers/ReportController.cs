@@ -10,9 +10,6 @@ namespace IndustrialEnergyManagementSystem.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // =========================
-        // GET: Report
-        // =========================
         public ActionResult Index(string searchMachine, DateTime? startDate, DateTime? endDate)
         {
             var logsQuery = db.EnergyRecords.Include(e => e.Machine).AsQueryable();

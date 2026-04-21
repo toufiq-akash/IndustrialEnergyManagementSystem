@@ -25,7 +25,6 @@
     </dl>
 </div>
 
-@* Form must post to "Delete" because of ActionName attribute *@
 @using (Html.BeginForm("Delete", "Energy", FormMethod.Post))
 {
     @Html.AntiForgeryToken()

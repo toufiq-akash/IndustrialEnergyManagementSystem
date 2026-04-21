@@ -11,15 +11,20 @@ namespace IndustrialEnergyManagementSystem.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // =========================
+        private bool IsLoggedIn()
+        {
+            return Session["UserId"] != null;
+        }
+
         // GET: Energy
-        // =========================
         public ActionResult Index(string searchMachine, DateTime? startDate, DateTime? endDate)
         {
-            // Step 1: query database including Machine navigation
+         
+            if (!IsLoggedIn())
+                return RedirectToAction("Login", "Account");
+
             var logsQuery = db.EnergyRecords.Include(e => e.Machine).AsQueryable();
 
-            // Step 2: Apply filters
             if (!string.IsNullOrEmpty(searchMachine))
                 logsQuery = logsQuery.Where(l => l.Machine.MachineName.Contains(searchMachine));
 
@@ -29,12 +34,10 @@ namespace IndustrialEnergyManagementSystem.Controllers
             if (endDate.HasValue)
                 logsQuery = logsQuery.Where(l => l.RecordDate <= endDate.Value);
 
-            // Step 3: fetch data into memory
             var logsList = logsQuery
                            .OrderByDescending(l => l.RecordDate)
-                           .ToList(); // <-- bring data into memory
+                           .ToList();
 
-            // Step 4: Project to ViewModel and calculate energy in memory
             var logs = logsList.Select(l => new EnergyLogViewModel
             {
                 RecordId = l.RecordId,
@@ -47,26 +50,24 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(logs);
         }
 
-        // =========================
         // GET: Energy/Create
-        // =========================
         public ActionResult Create()
         {
-            ViewBag.MachineId =
-                new SelectList(db.Machines, "MachineId", "MachineName");
+            if (!IsLoggedIn())
+                return RedirectToAction("Login", "Account");
 
+            ViewBag.MachineId = new SelectList(db.Machines, "MachineId", "MachineName");
             return View();
         }
 
-        // =========================
         // POST: Energy/Create
-        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(
-            [Bind(Include = "RecordId,MachineId,RunHours,RecordDate")]
-            EnergyRecord log)
+        public ActionResult Create([Bind(Include = "RecordId,MachineId,RunHours,RecordDate")] EnergyRecord log)
         {
+            if (!IsLoggedIn())
+                return RedirectToAction("Login", "Account");
+
             if (ModelState.IsValid)
             {
                 db.EnergyRecords.Add(log);
@@ -74,20 +75,16 @@ namespace IndustrialEnergyManagementSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MachineId =
-                new SelectList(db.Machines,
-                               "MachineId",
-                               "MachineName",
-                               log.MachineId);
-
+            ViewBag.MachineId = new SelectList(db.Machines, "MachineId", "MachineName", log.MachineId);
             return View(log);
         }
 
-        // =========================
-        // GET: Energy/Delete/5
-        // =========================
+        // GET: Energy/Delete
         public ActionResult Delete(int? id)
         {
+            if (!IsLoggedIn())
+                return RedirectToAction("Login", "Account");
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -110,13 +107,14 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return View(viewModel);
         }
 
-        // =========================
-        // POST: Energy/Delete/5
-        // =========================
+        // POST: Energy/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!IsLoggedIn())
+                return RedirectToAction("Login", "Account");
+
             EnergyRecord log = db.EnergyRecords.Find(id);
 
             if (log != null)
@@ -128,9 +126,7 @@ namespace IndustrialEnergyManagementSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        // =========================
         // Dispose
-        // =========================
         protected override void Dispose(bool disposing)
         {
             if (disposing)

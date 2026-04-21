@@ -14,7 +14,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <!-- Machine Dropdown -->
+        
         <div class="form-group">
             @Html.Label("Machine", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <!-- Run Hours -->
+        
         <div class="form-group">
             @Html.LabelFor(model => model.RunHours, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <!-- Record Date -->
+       
         <div class="form-group">
             @Html.LabelFor(model => model.RecordDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <!-- Submit -->
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Add Log" class="btn btn-success" />
